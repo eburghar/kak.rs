@@ -6,8 +6,8 @@ use yew_ansi::{get_sgr_segments, ColorEffect, SgrEffect};
 
 /// Return the kakoune face representation in face
 pub fn display_face(effect: &SgrEffect, face: &mut String) -> bool {
-	let has_fg = effect.fg != ColorEffect::None;
 	let has_bg = effect.bg != ColorEffect::None;
+	let has_fg = effect.fg != ColorEffect::None || has_bg;
 	let has_option =
 		effect.italic || effect.underline || effect.bold || effect.reverse || effect.dim;
 
@@ -32,7 +32,7 @@ pub fn display_face(effect: &SgrEffect, face: &mut String) -> bool {
 		match effect.bg {
 			ColorEffect::Name(color) => face.push_str(&format!("{}", color)),
 			ColorEffect::NameBright(color) => face.push_str(&format!("bright-{}", color)),
-			ColorEffect::Rgb(color) => face.push_str(&format!("rgb:{:X}", color)),
+			ColorEffect::Rgb(color) => face.push_str(&format!("rgb:{:06X}", color)),
 			ColorEffect::None => (),
 		};
 
