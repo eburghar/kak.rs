@@ -63,9 +63,8 @@ pub fn display_face(effect: &SgrEffect, face: &mut String) -> bool {
 pub fn print(ansi: &str, mode: Mode) {
 	let mut face = String::with_capacity(64);
 	for (effect, txt) in get_sgr_segments(ansi) {
-		if display_face(&effect, &mut face) {
-			print!("{{{}}}", &face)
-		}
+		display_face(&effect, &mut face);
+		print!("{{{}}}", &face);
 		for token in EscapeIterator::new(txt, mode) {
 			match token {
 				Token::Str(txt) => print!("{}", txt), // all modes
